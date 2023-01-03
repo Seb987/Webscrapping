@@ -1,6 +1,7 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 import pandas as pd
+import numpy as np
 
 st.set_page_config(page_title="Choix d'évènements")
 
@@ -20,21 +21,18 @@ df_loisir=pd.read_csv('events/loisirs-et-tourisme.csv')
 df_soiree=pd.read_csv('events/soiree.csv')
 df_selected = pd.read_csv('selected.csv')
 
-st.header("Catégories")
+st.title("Catégories")
 
 selected = option_menu(None, 
     ["Concert", "Festival", "Spectacle et comédie musicale", 'Humour et One man show','Sport','Parc','Exposition et musée','Théâtre','Cirque','Salon', 'Danse', 'Classique et opéra', 'Loisirs et tourisme', 'Soirée'], 
     menu_icon="cast", orientation="horizontal",
     styles={
-        #"container": {"padding": "0!important"},
         "nav-link": { "margin":"0px", "--hover-color": "#eee"},
         "nav-link-selected": {"background-color": "green"},
     })
 
-#    icons=['house', 'cloud-upload', "list-task", 'gear'], 
-
 if selected == 'Concert':
-    for i in range(5):
+    for i in range(30):
         with st.container():
             image_column, text_column, btn_column =st.columns((4,12,3))
             with image_column:  
@@ -52,7 +50,7 @@ if selected == 'Concert':
             st.write("----------------------------------------------------------------------")
 
 if selected == 'Festival':
-    for i in range(5):
+    for i in range(30):
         with st.container():
             image_column, text_column, btn_column =st.columns((4,12,3))            
             with image_column:  
@@ -71,7 +69,7 @@ if selected == 'Festival':
 
 
 if selected == 'Spectacle et comédie musicale':
-    for i in range(5):
+    for i in range(30):
         with st.container():
             image_column, text_column, btn_column =st.columns((4,12,3))            
             with image_column:  
@@ -89,7 +87,7 @@ if selected == 'Spectacle et comédie musicale':
             st.write("----------------------------------------------------------------------")
 
 if selected == 'Humour et One man show':
-    for i in range(5):
+    for i in range(30):
         with st.container():
             image_column, text_column, btn_column =st.columns((4,12,3))            
             with image_column:  
@@ -107,7 +105,7 @@ if selected == 'Humour et One man show':
             st.write("----------------------------------------------------------------------")
 
 if selected == 'Sport':
-    for i in range(5):
+    for i in range(30):
         with st.container():
             image_column, text_column, btn_column =st.columns((4,12,3))            
             with image_column:  
@@ -125,7 +123,7 @@ if selected == 'Sport':
             st.write("----------------------------------------------------------------------")
 
 if selected == 'Parc':
-    for i in range(5):
+    for i in range(30):
         with st.container():
             image_column, text_column, btn_column =st.columns((4,12,3))            
             with image_column:  
@@ -144,7 +142,7 @@ if selected == 'Parc':
  
 
 if selected == 'Exposition et musée':
-    for i in range(5):
+    for i in range(30):
         with st.container():
             image_column, text_column, btn_column =st.columns((4,12,3))            
             with image_column:  
@@ -162,7 +160,7 @@ if selected == 'Exposition et musée':
             st.write("----------------------------------------------------------------------")
 
 if selected == 'Théâtre':
-    for i in range(5):
+    for i in range(30):
         with st.container():
             image_column, text_column, btn_column =st.columns((4,12,3))            
             with image_column:  
@@ -180,7 +178,7 @@ if selected == 'Théâtre':
             st.write("----------------------------------------------------------------------")
 
 if selected == 'Cirque':
-    for i in range(5):
+    for i in range(30):
         with st.container():
             image_column, text_column, btn_column =st.columns((4,12,3))            
             with image_column:  
@@ -198,7 +196,7 @@ if selected == 'Cirque':
             st.write("----------------------------------------------------------------------")
 
 if selected == 'Salon':
-    for i in range(5):
+    for i in range(30):
         with st.container():
             image_column, text_column, btn_column =st.columns((4,12,3))            
             with image_column:  
@@ -216,7 +214,7 @@ if selected == 'Salon':
             st.write("----------------------------------------------------------------------")
 
 if selected == 'Danse':
-    for i in range(5):
+    for i in range(30):
         with st.container():
             image_column, text_column, btn_column =st.columns((4,12,3))            
             with image_column:  
@@ -234,7 +232,7 @@ if selected == 'Danse':
             st.write("----------------------------------------------------------------------")
 
 if selected == 'Classique et opéra':
-    for i in range(5):
+    for i in range(30):
         with st.container():
             image_column, text_column, btn_column =st.columns((4,12,3))            
             with image_column:  
@@ -252,7 +250,7 @@ if selected == 'Classique et opéra':
             st.write("----------------------------------------------------------------------")
 
 if selected == 'Loisirs et tourisme':
-    for i in range(5):
+    for i in range(30):
         with st.container():
             image_column, text_column, btn_column =st.columns((4,12,3))            
             with image_column:  
