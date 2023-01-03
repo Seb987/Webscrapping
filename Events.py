@@ -41,7 +41,7 @@ if selected == 'Concert':
                 st.image(df_concert['Image'][i],width=140)
             with text_column:
                 st.markdown(df_concert['Date'][i])
-                st.markdown(df_concert['Lieu'][i]+" - "+df_concert['Ville'][0])
+                st.markdown(df_concert['Lieu'][i]+" - "+df_concert['Ville'][i])
                 st.markdown(df_concert['Type'][i])
                 st.markdown(str(df_concert['Prix'][i]) + " €")
                 st.markdown( df_concert['Artiste'][i])
@@ -59,7 +59,7 @@ if selected == 'Festival':
                 st.image(df_festival['Image'][i],width=140)
             with text_column:
                 st.markdown(df_festival['Date'][i])
-                st.markdown(df_festival['Lieu'][i]+" - "+df_festival['Ville'][0])
+                st.markdown(df_festival['Lieu'][i]+" - "+df_festival['Ville'][i])
                 st.markdown(df_festival['Type'][i])
                 st.markdown(str(df_festival['Prix'][i]) + " €")
                 st.markdown( df_festival['Artiste'][i])
@@ -78,7 +78,7 @@ if selected == 'Spectacle et comédie musicale':
                 st.image(df_spectacle['Image'][i],width=140)
             with text_column:
                 st.markdown(df_spectacle['Date'][i])
-                st.markdown(df_spectacle['Lieu'][i]+" - "+df_spectacle['Ville'][0])
+                st.markdown(df_spectacle['Lieu'][i]+" - "+df_spectacle['Ville'][i])
                 st.markdown(df_spectacle['Type'][i])
                 st.markdown(str(df_spectacle['Prix'][i]) + " €")
                 st.markdown( df_spectacle['Artiste'][i])
@@ -96,7 +96,7 @@ if selected == 'Humour et One man show':
                 st.image(df_humour['Image'][i],width=140)
             with text_column:
                 st.markdown(df_humour['Date'][i])
-                st.markdown(df_humour['Lieu'][i]+" - "+df_humour['Ville'][0])
+                st.markdown(df_humour['Lieu'][i]+" - "+df_humour['Ville'][i])
                 st.markdown(df_humour['Type'][i])
                 st.markdown(str(df_humour['Prix'][i]) + " €")
                 st.markdown( df_humour['Artiste'][i])
@@ -114,7 +114,7 @@ if selected == 'Sport':
                 st.image(df_sport['Image'][i],width=140)
             with text_column:
                 st.markdown(df_sport['Date'][i])
-                st.markdown(df_sport['Lieu'][i]+" - "+df_sport['Ville'][0])
+                st.markdown(df_sport['Lieu'][i]+" - "+df_sport['Ville'][i])
                 st.markdown(df_sport['Type'][i])
                 st.markdown(str(df_sport['Prix'][i]) + " €")
                 st.markdown( df_sport['Artiste'][i])
@@ -132,7 +132,7 @@ if selected == 'Parc':
                 st.image(df_parc['Image'][i],width=140)
             with text_column:
                 st.markdown(df_parc['Date'][i])
-                st.markdown(df_parc['Lieu'][i]+" - "+df_parc['Ville'][0])
+                st.markdown(df_parc['Lieu'][i]+" - "+df_parc['Ville'][i])
                 st.markdown(df_parc['Type'][i])
                 st.markdown(str(df_parc['Prix'][i]) + " €")
                 st.markdown( df_parc['Artiste'][i])
@@ -151,7 +151,7 @@ if selected == 'Exposition et musée':
                 st.image(df_expo['Image'][i],width=140)
             with text_column:
                 st.markdown(df_expo['Date'][i])
-                st.markdown(df_expo['Lieu'][i]+" - "+df_expo['Ville'][0])
+                st.markdown(df_expo['Lieu'][i]+" - "+df_expo['Ville'][i])
                 st.markdown(df_expo['Type'][i])
                 st.markdown(str(df_expo['Prix'][i]) + " €")
                 st.markdown( df_expo['Artiste'][i])
@@ -169,7 +169,7 @@ if selected == 'Théâtre':
                 st.image(df_theatre['Image'][i],width=140)
             with text_column:
                 st.markdown(df_theatre['Date'][i])
-                st.markdown(df_theatre['Lieu'][i]+" - "+df_theatre['Ville'][0])
+                st.markdown(df_theatre['Lieu'][i]+" - "+df_theatre['Ville'][i])
                 st.markdown(df_theatre['Type'][i])
                 st.markdown(str(df_theatre['Prix'][i]) + " €")
                 st.markdown( df_theatre['Artiste'][i])
@@ -187,7 +187,7 @@ if selected == 'Cirque':
                 st.image(df_cirque['Image'][i],width=140)
             with text_column:
                 st.markdown(df_cirque['Date'][i])
-                st.markdown(df_cirque['Lieu'][i]+" - "+df_cirque['Ville'][0])
+                st.markdown(df_cirque['Lieu'][i]+" - "+df_cirque['Ville'][i])
                 st.markdown(df_cirque['Type'][i])
                 st.markdown(str(df_cirque['Prix'][i]) + " €")
                 st.markdown( df_cirque['Artiste'][i])
@@ -205,7 +205,7 @@ if selected == 'Salon':
                 st.image(df_salon['Image'][i],width=140)
             with text_column:
                 st.markdown(df_salon['Date'][i])
-                st.markdown(df_salon['Lieu'][i]+" - "+df_salon['Ville'][0])
+                st.markdown(df_salon['Lieu'][i]+" - "+df_salon['Ville'][i])
                 st.markdown(df_salon['Type'][i])
                 st.markdown(str(df_salon['Prix'][i]) + " €")
                 st.markdown( df_salon['Artiste'][i])
@@ -223,7 +223,7 @@ if selected == 'Danse':
                 st.image(df_danse['Image'][i],width=140)
             with text_column:
                 st.markdown(df_danse['Date'][i])
-                st.markdown(df_danse['Lieu'][i]+" - "+df_danse['Ville'][0])
+                st.markdown(df_danse['Lieu'][i]+" - "+df_danse['Ville'][i])
                 st.markdown(df_danse['Type'][i])
                 st.markdown(str(df_danse['Prix'][i]) + " €")
                 st.markdown( df_danse['Artiste'][i])
@@ -241,7 +241,7 @@ if selected == 'Classique et opéra':
                 st.image(df_classique['Image'][i],width=140)
             with text_column:
                 st.markdown(df_classique['Date'][i])
-                st.markdown(df_classique['Lieu'][i]+" - "+df_classique['Ville'][0])
+                st.markdown(df_classique['Lieu'][i]+" - "+df_classique['Ville'][i])
                 st.markdown(df_classique['Type'][i])
                 st.markdown(str(df_classique['Prix'][i]) + " €")
                 st.markdown( df_classique['Artiste'][i])
@@ -259,7 +259,7 @@ if selected == 'Loisirs et tourisme':
                 st.image(df_loisir['Image'][i],width=140)
             with text_column:
                 st.markdown(df_loisir['Date'][i])
-                st.markdown(df_loisir['Lieu'][i]+" - "+df_loisir['Ville'][0])
+                st.markdown(df_loisir['Lieu'][i]+" - "+df_loisir['Ville'][i])
                 st.markdown(df_loisir['Type'][i])
                 st.markdown(str(df_loisir['Prix'][i]) + " €")
                 st.markdown( df_loisir['Artiste'][i])
@@ -277,7 +277,7 @@ if selected == 'Soirée':
                 st.image(df_soiree['Image'][i],width=140)
             with text_column:
                 st.markdown(df_soiree['Date'][i])
-                st.markdown(df_soiree['Lieu'][i]+" - "+df_soiree['Ville'][0])
+                st.markdown(df_soiree['Lieu'][i]+" - "+df_soiree['Ville'][i])
                 st.markdown(df_soiree['Type'][i])
                 st.markdown(str(df_soiree['Prix'][i]) + " €")
                 st.markdown( df_soiree['Artiste'][i])
