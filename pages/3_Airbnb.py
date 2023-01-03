@@ -98,7 +98,7 @@ else:
                     place=df_selected['Ville'][i]
 
                 df_airbnb=scrap_airbnb(place,date_debut,date_fin)
-                sort_choice=st.selectbox("Choisissez de trier par:",['Prix','Note'])
+                sort_choice=st.selectbox("Choisissez de trier par:",['Prix','Note'],key=i+100)
                 if (sort_choice=="Prix"):
                     df_airbnb.sort_values(by=['Prix'], inplace=True)
                 if (sort_choice=="Note"):
