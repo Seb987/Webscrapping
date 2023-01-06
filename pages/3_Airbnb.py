@@ -34,6 +34,8 @@ def from_string_to_date_month(str_month):
         nb_month="12"
     return nb_month
 def from_string_to_date(str_date):
+    #Fonction qui transforme une date du style 08 avr. 2023 en format 2023-04-08
+    #La fonction prends en compte les différents types de dates, on split la fonction et on regarde la taille du tableau
     arr_date=str_date.split(" ")
     year=arr_date[len(arr_date)-1]
     day=arr_date[0]
@@ -45,7 +47,7 @@ def from_string_to_date(str_date):
     elif(len(arr_date)==5):
         month=from_string_to_date_month(arr_date[3])
     return datetime.strptime(year+"-"+month+"-"+day, '%Y-%m-%d')
-def scrap_airbnb(place, date_debut, date_fin):
+def scrap_airbnb(place, date_debut, date_fin):  
     url="https://www.airbnb.fr/s/"+place+"/homes?tab_id=home_tab&refinement_paths%5B%5D=%2Fhomes&flexible_trip_lengths%5B%5D=one_week&price_filter_input_type=0&price_filter_num_nights=1&date_picker_type=calendar&checkin="+date_debut+"&checkout="+date_fin+"&source=structured_search_input_header&search_type=search_query"
     request_text = request.urlopen(url).read()
     htmlpage= BeautifulSoup(request_text, "html")
@@ -56,7 +58,8 @@ def scrap_airbnb(place, date_debut, date_fin):
         hotel['Titre']=item.find('div',{'class':'t1jojoys dir dir-ltr'}).text.replace('\n','')
         hotel['Type']=item.find('span',{'class':'t6mzqp7 dir dir-ltr'}).text.replace('\n','')
         hotel['Lit']=item.find('div',{'class':'f15liw5s s1cjsi4j dir dir-ltr'}).text.replace('\n','')
-        hotel['Prix']=int(item.find('div',{'class':'_tt122m'}).text.replace('\n','').replace('€ au total',''))
+        Prix = item.find('div',{'class':'_tt122m'}).text.strip().replace('\n','').replace('€ au total','').replace('\u202f','')
+        hotel['Prix']=int(Prix)
         item_rating=item.find('span',{'class':'r1dxllyb dir dir-ltr'})
         if(item_rating != None):
             rating= item_rating.text.replace(')','').split('(')
@@ -67,9 +70,7 @@ def scrap_airbnb(place, date_debut, date_fin):
         hotels.append(hotel)
     return pd.DataFrame(hotels)
 
-
 df_selected = pd.read_csv('selected.csv')
-
 biggest_cities = ["PARIS", "MARSEILLE", "LYON", "TOULOUSE", "NICE", "NANTES", "MONTPELLIER", "STRASBOURG", "BORDEAUX", "LILLE"]
 
 if(len(df_selected)==0):
@@ -89,19 +90,23 @@ else:
                     st.markdown(str(df_selected['Prix'][i]) + " €")
                     st.markdown(df_selected['Artiste'][i])
                 date_event=st.date_input("Veuillez saisir la date à laquelle vous souhaitez assister à chaque évènement", from_string_to_date(df_selected['Date'][i]), key=i)
-                date_debut=str(date_event)
-                date_fin=str(date_event+ timedelta(days=1))
+                if date_event < datetime.today().date():
+                    date_debut=date_event
+                else:
+                    date_debut=datetime.today().date()
+                date_fin=(date_debut+ timedelta(days=1)).strftime('%Y-%m-%d')
+                date_debut=date_debut.strftime('%Y-%m-%d')
                 if(str(df_selected['Ville'][i]).upper() in biggest_cities):
                     place=df_selected['Lieu'][i].replace(' ', '-')
                 else:
-                    place=df_selected['Ville'][i]
+                    place=df_selected['Ville'][i].replace(' ', '-')
 
                 df_airbnb=scrap_airbnb(place,date_debut,date_fin)
                 sort_choice=st.selectbox("Choisissez de trier par:",['Prix','Note'],key=i+100)
                 if (sort_choice=="Prix"):
                     df_airbnb.sort_values(by=['Prix'], inplace=True)
                 if (sort_choice=="Note"):
-                    df_airbnb.sort_values(by=['Note (sur 5)'], inplace=True)
+                    df_airbnb.sort_values(by=['Note (sur 5)'], inplace=True, ascending=False)
                 df_airbnb.dropna(how='any', inplace=True)
                 titre_column, type_column, lit_column, prix_column, note_column, nbrevue_column =st.columns((4,6,2,1,1.5,2))
                 with titre_column:

@@ -34,27 +34,28 @@ selected = option_menu(None,
 if selected == 'Concert':
     for i in range(30):
         with st.container():
-            image_column, text_column, btn_column =st.columns((4,12,3))
+            image_column, text_column, btn_column =st.columns((4,10,3.5))
             with image_column:  
                 st.image(df_concert['Image'][i],width=140)
             with text_column:
-                st.markdown(df_concert['Date'][i])
-                st.markdown(df_concert['Lieu'][i]+" - "+df_concert['Ville'][i])
-                st.markdown(df_concert['Type'][i])
-                st.markdown(str(df_concert['Prix'][i]) + " €")
-                st.markdown( df_concert['Artiste'][i])
+                st.write(df_concert['Date'][i])
+                st.write(df_concert['Lieu'][i]+" - "+df_concert['Ville'][i])
+                st.write(df_concert['Type'][i])
+                st.write(str(df_concert['Prix'][i]) + " €")
+                st.write( df_concert['Artiste'][i])
             with btn_column:
                 btn=st.button("Ajouter",key=i)
                 if btn:
+                    st.success("Évenèment ajouté")
                     df_selected.append(df_concert.iloc[i]).to_csv('selected.csv',index=False)
             st.write("----------------------------------------------------------------------")
 
 if selected == 'Festival':
     for i in range(30):
         with st.container():
-            image_column, text_column, btn_column =st.columns((4,12,3))            
+            image_column, text_column, btn_column =st.columns((4,10,3.5))            
             with image_column:  
-                st.image(df_festival['Image'][i],width=140)
+                st.image(df_festival['Image'][i],width=150)
             with text_column:
                 st.markdown(df_festival['Date'][i])
                 st.markdown(df_festival['Lieu'][i]+" - "+df_festival['Ville'][i])
@@ -64,6 +65,7 @@ if selected == 'Festival':
             with btn_column:
                 btn=st.button("Ajouter",key=i)
                 if btn:
+                    st.success("Évenèment ajouté")
                     df_selected.append(df_festival.iloc[i]).to_csv('selected.csv',index=False)
             st.write("----------------------------------------------------------------------")
 
@@ -71,9 +73,9 @@ if selected == 'Festival':
 if selected == 'Spectacle et comédie musicale':
     for i in range(30):
         with st.container():
-            image_column, text_column, btn_column =st.columns((4,12,3))            
+            image_column, text_column, btn_column =st.columns((4,10,3.5))            
             with image_column:  
-                st.image(df_spectacle['Image'][i],width=140)
+                st.image(df_spectacle['Image'][i],width=150)
             with text_column:
                 st.markdown(df_spectacle['Date'][i])
                 st.markdown(df_spectacle['Lieu'][i]+" - "+df_spectacle['Ville'][i])
@@ -83,15 +85,16 @@ if selected == 'Spectacle et comédie musicale':
             with btn_column:
                 btn=st.button("Ajouter",key=i)
                 if btn:
+                    st.success("Évenèment ajouté")
                     df_selected.append(df_spectacle.iloc[i]).to_csv('selected.csv',index=False)
             st.write("----------------------------------------------------------------------")
 
 if selected == 'Humour et One man show':
     for i in range(30):
         with st.container():
-            image_column, text_column, btn_column =st.columns((4,12,3))            
+            image_column, text_column, btn_column =st.columns((4,10,3.5))            
             with image_column:  
-                st.image(df_humour['Image'][i],width=140)
+                st.image(df_humour['Image'][i],width=150)
             with text_column:
                 st.markdown(df_humour['Date'][i])
                 st.markdown(df_humour['Lieu'][i]+" - "+df_humour['Ville'][i])
@@ -101,15 +104,16 @@ if selected == 'Humour et One man show':
             with btn_column:
                 btn=st.button("Ajouter",key=i)
                 if btn:
+                    st.success("Évenèment ajouté")
                     df_selected.append(df_humour.iloc[i]).to_csv('selected.csv',index=False)
             st.write("----------------------------------------------------------------------")
 
 if selected == 'Sport':
     for i in range(30):
         with st.container():
-            image_column, text_column, btn_column =st.columns((4,12,3))            
+            image_column, text_column, btn_column =st.columns((4,10,3.5))            
             with image_column:  
-                st.image(df_sport['Image'][i],width=140)
+                st.image(df_sport['Image'][i],width=150)
             with text_column:
                 st.markdown(df_sport['Date'][i])
                 st.markdown(df_sport['Lieu'][i]+" - "+df_sport['Ville'][i])
@@ -119,15 +123,16 @@ if selected == 'Sport':
             with btn_column:
                 btn=st.button("Ajouter",key=i)
                 if btn:
+                    st.success("Évenèment ajouté")
                     df_selected.append(df_sport.iloc[i]).to_csv('selected.csv',index=False)
             st.write("----------------------------------------------------------------------")
 
 if selected == 'Parc':
     for i in range(30):
         with st.container():
-            image_column, text_column, btn_column =st.columns((4,12,3))            
+            image_column, text_column, btn_column =st.columns((4,10,3.5))            
             with image_column:  
-                st.image(df_parc['Image'][i],width=140)
+                st.image(df_parc['Image'][i],width=150)
             with text_column:
                 st.markdown(df_parc['Date'][i])
                 st.markdown(df_parc['Lieu'][i]+" - "+df_parc['Ville'][i])
@@ -137,6 +142,7 @@ if selected == 'Parc':
             with btn_column:
                 btn=st.button("Ajouter",key=i)
                 if btn:
+                    st.success("Évenèment ajouté")
                     df_selected.append(df_parc.iloc[i]).to_csv('selected.csv',index=False)
             st.write("----------------------------------------------------------------------")
  
@@ -144,9 +150,9 @@ if selected == 'Parc':
 if selected == 'Exposition et musée':
     for i in range(30):
         with st.container():
-            image_column, text_column, btn_column =st.columns((4,12,3))            
+            image_column, text_column, btn_column =st.columns((4,10,3.5))            
             with image_column:  
-                st.image(df_expo['Image'][i],width=140)
+                st.image(df_expo['Image'][i],width=150)
             with text_column:
                 st.markdown(df_expo['Date'][i])
                 st.markdown(df_expo['Lieu'][i]+" - "+df_expo['Ville'][i])
@@ -156,15 +162,16 @@ if selected == 'Exposition et musée':
             with btn_column:
                 btn=st.button("Ajouter",key=i)
                 if btn:
+                    st.success("Évenèment ajouté")
                     df_selected.append(df_expo.iloc[i]).to_csv('selected.csv',index=False)
             st.write("----------------------------------------------------------------------")
 
 if selected == 'Théâtre':
     for i in range(30):
         with st.container():
-            image_column, text_column, btn_column =st.columns((4,12,3))            
+            image_column, text_column, btn_column =st.columns((4,10,3.5))            
             with image_column:  
-                st.image(df_theatre['Image'][i],width=140)
+                st.image(df_theatre['Image'][i],width=150)
             with text_column:
                 st.markdown(df_theatre['Date'][i])
                 st.markdown(df_theatre['Lieu'][i]+" - "+df_theatre['Ville'][i])
@@ -174,15 +181,16 @@ if selected == 'Théâtre':
             with btn_column:
                 btn=st.button("Ajouter",key=i)
                 if btn:
+                    st.success("Évenèment ajouté")
                     df_selected.append(df_theatre.iloc[i]).to_csv('selected.csv',index=False)
             st.write("----------------------------------------------------------------------")
 
 if selected == 'Cirque':
     for i in range(30):
         with st.container():
-            image_column, text_column, btn_column =st.columns((4,12,3))            
+            image_column, text_column, btn_column =st.columns((4,10,3.5))            
             with image_column:  
-                st.image(df_cirque['Image'][i],width=140)
+                st.image(df_cirque['Image'][i],width=150)
             with text_column:
                 st.markdown(df_cirque['Date'][i])
                 st.markdown(df_cirque['Lieu'][i]+" - "+df_cirque['Ville'][i])
@@ -192,15 +200,16 @@ if selected == 'Cirque':
             with btn_column:
                 btn=st.button("Ajouter",key=i)
                 if btn:
+                    st.success("Évenèment ajouté")
                     df_selected.append(df_cirque.iloc[i]).to_csv('selected.csv',index=False)
             st.write("----------------------------------------------------------------------")
 
 if selected == 'Salon':
     for i in range(30):
         with st.container():
-            image_column, text_column, btn_column =st.columns((4,12,3))            
+            image_column, text_column, btn_column =st.columns((4,10,3.5))            
             with image_column:  
-                st.image(df_salon['Image'][i],width=140)
+                st.image(df_salon['Image'][i],width=150)
             with text_column:
                 st.markdown(df_salon['Date'][i])
                 st.markdown(df_salon['Lieu'][i]+" - "+df_salon['Ville'][i])
@@ -210,15 +219,16 @@ if selected == 'Salon':
             with btn_column:
                 btn=st.button("Ajouter",key=i)
                 if btn:
+                    st.success("Évenèment ajouté")
                     df_selected.append(df_salon.iloc[i]).to_csv('selected.csv',index=False)
             st.write("----------------------------------------------------------------------")
 
 if selected == 'Danse':
     for i in range(30):
         with st.container():
-            image_column, text_column, btn_column =st.columns((4,12,3))            
+            image_column, text_column, btn_column =st.columns((4,10,3.5))            
             with image_column:  
-                st.image(df_danse['Image'][i],width=140)
+                st.image(df_danse['Image'][i],width=150)
             with text_column:
                 st.markdown(df_danse['Date'][i])
                 st.markdown(df_danse['Lieu'][i]+" - "+df_danse['Ville'][i])
@@ -228,15 +238,16 @@ if selected == 'Danse':
             with btn_column:
                 btn=st.button("Ajouter",key=i)
                 if btn:
+                    st.success("Évenèment ajouté")
                     df_selected.append(df_danse.iloc[i]).to_csv('selected.csv',index=False)
             st.write("----------------------------------------------------------------------")
 
 if selected == 'Classique et opéra':
     for i in range(30):
         with st.container():
-            image_column, text_column, btn_column =st.columns((4,12,3))            
+            image_column, text_column, btn_column =st.columns((4,10,3.5))            
             with image_column:  
-                st.image(df_classique['Image'][i],width=140)
+                st.image(df_classique['Image'][i],width=150)
             with text_column:
                 st.markdown(df_classique['Date'][i])
                 st.markdown(df_classique['Lieu'][i]+" - "+df_classique['Ville'][i])
@@ -246,15 +257,16 @@ if selected == 'Classique et opéra':
             with btn_column:
                 btn=st.button("Ajouter",key=i)
                 if btn:
+                    st.success("Évenèment ajouté")
                     df_selected.append(df_classique.iloc[i]).to_csv('selected.csv',index=False)
             st.write("----------------------------------------------------------------------")
 
 if selected == 'Loisirs et tourisme':
     for i in range(30):
         with st.container():
-            image_column, text_column, btn_column =st.columns((4,12,3))            
+            image_column, text_column, btn_column =st.columns((4,10,3.5))            
             with image_column:  
-                st.image(df_loisir['Image'][i],width=140)
+                st.image(df_loisir['Image'][i],width=150)
             with text_column:
                 st.markdown(df_loisir['Date'][i])
                 st.markdown(df_loisir['Lieu'][i]+" - "+df_loisir['Ville'][i])
@@ -264,15 +276,16 @@ if selected == 'Loisirs et tourisme':
             with btn_column:
                 btn=st.button("Ajouter",key=i)
                 if btn:
+                    st.success("Évenèment ajouté")
                     df_selected.append(df_loisir.iloc[i]).to_csv('selected.csv',index=False)
             st.write("----------------------------------------------------------------------")
 
 if selected == 'Soirée':
     for i in range(4):
         with st.container():
-            image_column, text_column, btn_column =st.columns((4,12,3))            
+            image_column, text_column, btn_column =st.columns((4,10,3.5))            
             with image_column:  
-                st.image(df_soiree['Image'][i],width=140)
+                st.image(df_soiree['Image'][i],width=150)
             with text_column:
                 st.markdown(df_soiree['Date'][i])
                 st.markdown(df_soiree['Lieu'][i]+" - "+df_soiree['Ville'][i])
@@ -282,6 +295,7 @@ if selected == 'Soirée':
             with btn_column:
                 btn=st.button("Ajouter",key=i)
                 if btn:
+                    st.success("Évenèment ajouté")
                     df_selected.append(df_soiree.iloc[i]).to_csv('selected.csv',index=False)
             st.write("----------------------------------------------------------------------")  
 
