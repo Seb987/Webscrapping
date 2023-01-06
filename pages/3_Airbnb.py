@@ -45,7 +45,6 @@ def from_string_to_date(str_date):
     elif(len(arr_date)==5):
         month=from_string_to_date_month(arr_date[3])
     return datetime.strptime(year+"-"+month+"-"+day, '%Y-%m-%d')
-
 def scrap_airbnb(place, date_debut, date_fin):
     url="https://www.airbnb.fr/s/"+place+"/homes?tab_id=home_tab&refinement_paths%5B%5D=%2Fhomes&flexible_trip_lengths%5B%5D=one_week&price_filter_input_type=0&price_filter_num_nights=1&date_picker_type=calendar&checkin="+date_debut+"&checkout="+date_fin+"&source=structured_search_input_header&search_type=search_query"
     request_text = request.urlopen(url).read()
@@ -76,7 +75,7 @@ biggest_cities = ["PARIS", "MARSEILLE", "LYON", "TOULOUSE", "NICE", "NANTES", "M
 if(len(df_selected)==0):
     st.header("Vous n'avez choisi aucun évènement")
 else:
-    st.header("Veuillez saisir la date à laquelle vous souhaitez assister à chaque évènement")
+    st.header("Liste de airbnb")
     st.write("")
     for i in range(len(df_selected)):
             with st.container():
@@ -89,7 +88,7 @@ else:
                     st.markdown(df_selected['Type'][i])
                     st.markdown(str(df_selected['Prix'][i]) + " €")
                     st.markdown(df_selected['Artiste'][i])
-                date_event=st.date_input(" ", from_string_to_date(df_selected['Date'][i]), key=i)
+                date_event=st.date_input("Veuillez saisir la date à laquelle vous souhaitez assister à chaque évènement", from_string_to_date(df_selected['Date'][i]), key=i)
                 date_debut=str(date_event)
                 date_fin=str(date_event+ timedelta(days=1))
                 if(str(df_selected['Ville'][i]).upper() in biggest_cities):
@@ -103,9 +102,34 @@ else:
                     df_airbnb.sort_values(by=['Prix'], inplace=True)
                 if (sort_choice=="Note"):
                     df_airbnb.sort_values(by=['Note (sur 5)'], inplace=True)
-                st.dataframe(df_airbnb)
+                df_airbnb.dropna(how='any', inplace=True)
+                titre_column, type_column, lit_column, prix_column, note_column, nbrevue_column =st.columns((4,6,2,1,1.5,2))
+                with titre_column:
+                    st.markdown('Titre')
+                with type_column:
+                    st.markdown('Type')
+                with lit_column:
+                    st.markdown('Lit')
+                with prix_column:
+                    st.markdown('Prix (€)')
+                with note_column:
+                    st.markdown('Note (sur 5)')
+                with nbrevue_column:
+                    st.markdown('Nombre de revues')
                 for index, row in df_airbnb.iterrows():
                     with st.container():
-                        st.markdown(f"[{row['Titre']}]({row['Link']})")
+                        titre_column, type_column, lit_column, prix_column, note_column, nbrevue_column =st.columns((4,6,2,1,1.5,2))
+                        with titre_column:
+                            st.markdown(f"[{row['Titre']}]({row['Link']})")
+                        with type_column:
+                            st.markdown(row['Type'])
+                        with lit_column:
+                            st.markdown(row['Lit'])
+                        with prix_column:
+                            st.markdown(row['Prix'])
+                        with note_column:
+                            st.markdown(row['Note (sur 5)'])
+                        with nbrevue_column:
+                            st.markdown(row['Nombre de revues'])
                 st.write("----------------------------------------------------------------------")
             
