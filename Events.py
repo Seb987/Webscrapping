@@ -5,6 +5,7 @@ import numpy as np
 
 st.set_page_config(page_title="Choix d'évènements")
 
+#Dataframe de chaque évènement en fonction de sa catégorie
 df_concert=pd.read_csv('events/concert.csv')
 df_festival=pd.read_csv('events/festival.csv')
 df_spectacle=pd.read_csv('events/spectacle-et-comedie-musicale.csv')
@@ -23,7 +24,7 @@ df_soiree=pd.read_csv('events/soiree.csv')
 #Le fichier selected.csv permet de stocker temporairement
 df_selected = pd.read_csv('selected.csv')
 
-#Fonction qui permet de récupérer le fichier csv correspondant à la catégorie sélectionnée
+#Fonction qui permet de récupérer le DataFrame correspondant à la catégorie sélectionnée
 def DataFrame_Events(selected):
     if selected == 'Concert':
         df=df_concert
@@ -56,7 +57,7 @@ def DataFrame_Events(selected):
     return df
     
 st.title("Catégories")
-
+#Menu déroulant permettant de choisir la catégorie d'évènement
 selected = option_menu(None, 
     ["Concert", "Festival", "Spectacle et comédie musicale", 'Humour et One man show','Sport','Parc','Exposition et musée','Théâtre','Cirque','Salon', 'Danse', 'Classique et opéra', 'Loisirs et tourisme', 'Soirée'], 
     menu_icon="cast", orientation="horizontal",
@@ -65,13 +66,14 @@ selected = option_menu(None,
         "nav-link-selected": {"background-color": "green"},
     })
 
+#On récupère le DataFrame correspondant à la catégorie sélectionnée
 df=DataFrame_Events(selected)
 
-if(selected == 'Soirée'):
-    len_events=4
+#Nous avons décidé de n'afficher que les 30 premiers évènements, les soirées n'ayant uniquement 4 évènements, nous avons pris cela en compte
+if(len(df) < 30):
+    len_events=len(df)
 else: 
     len_events=30
-#Nous avons décidé de n'afficher que les 30 premiers évènements, sauf pour les soirées où il n'y en a uniquement 4
 for i in range(len_events):
     with st.container():
         image_column, text_column, btn_column =st.columns((4,10,3.5))
@@ -89,6 +91,7 @@ for i in range(len_events):
             #Ajout d'un bouton pour ajouter l'évènement dans le fichier selected.csv
             btn=st.button("Ajouter",key=i)
             if btn:
+                #Texte pour prévenir l'utilisateur que l'évènement a bien été ajouté
                 st.success("Évenèment ajouté")
                 df_selected.append(df.iloc[i]).to_csv('selected.csv',index=False)
         st.write("----------------------------------------------------------------------")

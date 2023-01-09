@@ -6,7 +6,7 @@ from datetime import timedelta
 from urllib import request
 from bs4 import BeautifulSoup
 
-#Fonction qui transforme un mois en format lettre en format numérique string
+#Fonction qui transforme un mois en format lettre en format numérique string : janv. -> 01
 def from_string_to_date_month(str_month):
     nb_month=0
     if(str_month=='janv.'):
@@ -34,9 +34,9 @@ def from_string_to_date_month(str_month):
     elif(str_month=='dec.'):
         nb_month="12"
     return nb_month
-#Fonction qui transforme une date du style 08 avr. 2023 en format 2023-04-08
+#Fonction qui transforme une date de format 08 avr. 2023 en format 2023-04-08
 def from_string_to_date(str_date):
-    #La fonction prends en compte les différents types de dates, on split la fonction et on regarde la taille du tableau
+    #La fonction prends en compte les différents types de dates, on split la date et on regarde la taille du tableau
     #Si la taille est de 3, on a une date du style 08 avr. 2023
     #Si la taille est de 5, on a une date du style 07 au 08 avr. 2023
     #Si la taille est de 6, on a une date du style 08 mars au 08 avr. 2023
@@ -60,29 +60,37 @@ def scrap_airbnb(place, date_debut, date_fin):
     request_text = request.urlopen(url).read()
     htmlpage= BeautifulSoup(request_text, "html")
 
+    #On stocke les résultats dans un tableau de dictionnaire
     hotels=[]
     for item in htmlpage.findAll('div',{'class':'lwy0wad l1tup9az dir dir-ltr'}):
-        hotel={}
-        hotel['Titre']=item.find('div',{'class':'t1jojoys dir dir-ltr'}).text.replace('\n','')
-        hotel['Type']=item.find('span',{'class':'t6mzqp7 dir dir-ltr'}).text.replace('\n','')
-        hotel['Lit']=item.find('div',{'class':'f15liw5s s1cjsi4j dir dir-ltr'}).text.replace('\n','')
-        Prix = item.find('div',{'class':'_tt122m'}).text.strip().replace('\n','').replace('€ au total','').replace('\u202f','')
-        hotel['Prix']=int(Prix)
-        item_rating=item.find('span',{'class':'r1dxllyb dir dir-ltr'})
-        #Si la note n'est pas renseignée, ce qui peut être le cas pour les nouveaux logements on ne l'ajoute pas dans le tableau
-        if(item_rating != None):
-            #Puisque le text qu'on récupère est de la forme 4.7(120), on enlève d'abord le ")" on split sur le "("" 
-            # Et on récupère la note et le nombre de revues dans un tableau
-            rating= item_rating.text.replace(')','').split('(')
-            if(len(rating)==2):
-                hotel['Note (sur 5)']=rating[0]
-                hotel['Nombre de revues']=rating[1]
-        hotel['Link']="https://www.airbnb.fr/"+str(item.find('div',{'class':'c14whb16 dir dir-ltr'}).find('a')['href'])
-        hotels.append(hotel)
+        try:
+            hotel={}
+            hotel['Titre']=item.find('div',{'class':'t1jojoys dir dir-ltr'}).text.replace('\n','')
+            hotel['Type']=item.find('span',{'class':'t6mzqp7 dir dir-ltr'}).text.replace('\n','')
+            hotel['Lit']=item.find('div',{'class':'f15liw5s s1cjsi4j dir dir-ltr'}).text.replace('\n','')
+            Prix = item.find('div',{'class':'_tt122m'}).text.strip().replace('\n','').replace('€ au total','').replace('\u202f','')
+            hotel['Prix']=int(Prix)
+            item_rating=item.find('span',{'class':'r1dxllyb dir dir-ltr'})
+            #Si la note n'est pas renseignée, ce qui peut être le cas pour les nouveaux logements on ne l'ajoute pas dans le tableau
+            if(item_rating == None):
+                continue
+            else:
+                #Puisque le text qu'on récupère est de la forme 4.7(120), on enlève d'abord le ")" on split sur le "("" 
+                # Et on récupère la note et le nombre de revues dans un tableau
+                rating= item_rating.text.replace(')','').split('(')
+                if(len(rating)==2):
+                    hotel['Note (sur 5)']=rating[0]
+                    hotel['Nombre de revues']=rating[1]
+            hotel['Link']="https://www.airbnb.fr/"+str(item.find('div',{'class':'c14whb16 dir dir-ltr'}).find('a')['href'])
+            hotels.append(hotel)
+        except:
+            continue
     return pd.DataFrame(hotels)
 
+#Dataframe des évènements que l'utilisateur a choisi
 df_selected = pd.read_csv('selected.csv')
-#Tableau des plus grandes villes afin de effectue une recherche sur une ville ou sur un lieu d'évènement
+
+#Tableau des plus grandes villes afin de savoir si on effectue une recherche sur une ville ou sur un lieu d'évènement
 biggest_cities = ["PARIS", "MARSEILLE", "LYON", "TOULOUSE", "NICE", "NANTES", "MONTPELLIER", "STRASBOURG", "BORDEAUX", "LILLE"]
 
 if(len(df_selected)==0):
@@ -92,7 +100,7 @@ else:
     st.write("")
     for i in range(len(df_selected)):
             with st.container():
-                #On réaffiche l'image, la date, le lieu, le type, le prix et l'artiste
+                #On réaffiche l'image, la date, le lieu, le type, le prix et les artistes
                 image_column, text_column =st.columns((1,3.5))
                 with image_column:  
                     st.image(df_selected['Image'][i],width=140)
@@ -103,7 +111,7 @@ else:
                     st.markdown(str(df_selected['Prix'][i]) + " €")
                     st.markdown(df_selected['Artiste'][i])
 
-                #Si la date de début de l'évènement est antérieur à la date d'aujourd'hui, on affiche la date d'aujourd'hui à la place
+                #Si la date de début de l'évènement est antérieure à la date d'aujourd'hui, on affiche la date d'aujourd'hui à la place
                 dt=from_string_to_date(df_selected['Date'][i]).date()
                 if dt < datetime.today().date():
                     date_debut=datetime.today().date()
@@ -114,15 +122,15 @@ else:
                 date_debut=date_debut.strftime('%Y-%m-%d')
 
                 #Si la ville est une des plus grandes villes, on effectue la recherche sur le lieu de l'évènement
-                #Sinon on effectue la recherche sur la ville
                 if(str(df_selected['Ville'][i]).upper() in biggest_cities):
                     place=df_selected['Lieu'][i].replace(' ', '-')
+                #Sinon on effectue la recherche sur la ville
                 else:
                     place=df_selected['Ville'][i].replace(' ', '-')
 
                 #On récupère les différents logements autour de l'évènement
                 df_airbnb=scrap_airbnb(place,date_debut,date_fin)
-                df_airbnb.dropna(how='any', inplace=True) #On supprime les lignes qui n'ont pas de note et de nombre de revues
+                df_airbnb.dropna(how='any', inplace=True) #On supprime les lignes qui possèdent des attributs vides
 
                 #Selon le choix de l'utilisateur, on trie le tableau par prix ou par note, l'option par défaut sera le prix
                 sort_choice=st.selectbox("Choisissez de trier par:",['Prix','Note'],key=i+100)
