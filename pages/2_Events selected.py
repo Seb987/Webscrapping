@@ -6,8 +6,8 @@ df_selected = pd.read_csv('selected.csv')
 
 st.title("Évènements choisis")
 
-
 if(len(df_selected)==0):
+    #Si aucun évènement n'a été choisi, on affiche un message correspondant
     st.header("Vous n'avez choisi aucun évènement")
 else:
     st.header("Voici les évènements que vous avez choisi:")
@@ -24,6 +24,8 @@ else:
                 st.markdown(str(df_selected['Prix'][i]) + " €")
                 st.markdown(df_selected['Artiste'][i])
             with btn_column:
+                #Ajout d'un bouton pour retirer l'évènement de ses choix, 
+                #On va également réactualiser la page en faisant un F5 pour enlever de l'affichage l'évèmenent en question
                 btn=st.button("Retirer",key=i)
                 if btn:
                     df_selected.drop(df_selected.index[i]).to_csv('selected.csv',index=False)
