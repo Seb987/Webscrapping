@@ -58,7 +58,7 @@ def scrap_airbnb(place, date_debut, date_fin):
     #On récupère la page html de la recherche en fonction de la ville, de la date de début et de la date de fin
     url="https://www.airbnb.fr/s/"+place+"/homes?tab_id=home_tab&refinement_paths%5B%5D=%2Fhomes&flexible_trip_lengths%5B%5D=one_week&price_filter_input_type=0&price_filter_num_nights=1&date_picker_type=calendar&checkin="+date_debut+"&checkout="+date_fin+"&source=structured_search_input_header&search_type=search_query"
     request_text = request.urlopen(url).read()
-    htmlpage= BeautifulSoup(request_text, "html")
+    htmlpage= BeautifulSoup(request_text, features="html.parser")
 
     #On stocke les résultats dans un tableau de dictionnaire
     hotels=[]
