@@ -7,8 +7,8 @@ df_selected = pd.read_csv('selected.csv')
 
 st.title("Évènements choisis")
 
+#Si aucun évènement n'a été choisi, on affiche un message correspondant
 if(len(df_selected)==0):
-    #Si aucun évènement n'a été choisi, on affiche un message correspondant
     st.header("Vous n'avez choisi aucun évènement")
 else:
     st.header("Voici les évènements que vous avez choisi :")
