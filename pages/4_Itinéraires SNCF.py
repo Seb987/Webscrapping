@@ -28,6 +28,7 @@ villes = [
     "Angers"
 ]
 
+#Récupère les coordonnées de la gare de départ et d'arrivée, puis les affiche sur la carte avec une ligne entre les deux
 def get_trajets(m,gares, ville_origine, ville_destination):
     gare_origine=gares.loc[gares['commune_libellemin'].str.contains(ville_origine, na=False)]
     gare_destination=gares.loc[gares['commune_libellemin'].str.contains(ville_destination, na=False)]
@@ -48,6 +49,18 @@ def get_trajets(m,gares, ville_origine, ville_destination):
     ).add_to(m)
 
     return
+#Affiche le chemin à effectuer à partir de la ville où habite l'utilisateur et des villes des évènements qu'il a choisi dans l'ordre des dates
+def afficher_chemin():
+    chemin = []
+    chemin.append(ville)
+    chemin.append("  ----->  ") 
+    for i in range(len(df_selected)):
+        chemin.append(df_selected.iloc[i]['Ville'])
+        chemin.append("  ----->  ") 
+    chemin.append(ville)
+    st.write("Itinéraire à effectuer :")
+    st.write(" ".join(map(str, chemin)))
+    return
 
 st.title("Itinéraires SNCF")
 
@@ -60,6 +73,7 @@ gares = gpd.read_file("sncf/gares.geojson")
 #Liste des trajets
 itineraires= pd.read_csv("sncf/tarifs.csv",sep=';')
 
+#On nettoie les données
 gares['uic_code'] = gares['uic_code'].astype('str')
 itineraires['Gare origine - code UIC']=itineraires['Gare origine - code UIC'].astype('str')
 itineraires['Gare destination - code UIC']=itineraires['Gare destination - code UIC'].astype('str')
@@ -72,25 +86,35 @@ if 'Date_Choix' not in df_selected.columns or df_selected['Date_Choix'].isnull()
     st.header("Vous n'avez pas choisi de date pour tous les évènements, veuillez vous rendre à la page Airbnb")
 else:
     df_selected.sort_values(by='Date_Choix',inplace=True)
-    st.dataframe(df_selected)
 
+    #Correspond à la ville où habite l'utilisateur
     ville=st.selectbox("Ville de départ (Vous pouvez l'écrire au clavier ou choisir parmi les choix)", villes)
+    ville=ville.upper()
 
+    #Si le boutton n'a pas été cliqué, on affiche le boutton
     if (st.session_state['button']==False):
         btn=st.button("Afficher l'itinéraire")
     else:
         btn=True
     if (btn):
+        afficher_chemin()
+
         st.session_state['button'] = True
         gare=gares.loc[gares['commune_libellemin'].str.contains(ville.upper(), na=False)]
         
+        #On affiche la carte centrée sur la ville de départ de l'utilisateur
         m = folium.Map(location=[gare.iloc[0]['geometry'].y,gare.iloc[0]['geometry'].x], zoom_start=7)
-        get_trajets(m,gares,ville.upper(),df_selected.iloc[0]['Ville'])
+
+        #On affiche le trajet entre la ville de départ et la première ville de la liste des évènements
+        get_trajets(m,gares,ville,df_selected.iloc[0]['Ville'])
+
+        #On affiche le trajet entre chaque ville de la liste des évènements
         for i in range(len(df_selected)-1):
             if df_selected.iloc[i]['Ville'] == df_selected.iloc[i+1]['Ville']:
                 continue
             get_trajets(m,gares,df_selected.iloc[i]['Ville'],df_selected.iloc[i+1]['Ville'])
-        get_trajets(m,gares,df_selected.iloc[-1]['Ville'],ville.upper())
+
+        #On affiche le trajet entre la dernière ville de la liste des évènements et la ville de départ
+        get_trajets(m,gares,df_selected.iloc[-1]['Ville'],ville)
         st_data=st_folium(m, width=725)
-    
     
