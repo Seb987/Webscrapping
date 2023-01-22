@@ -98,6 +98,7 @@ if(len(df_selected)==0):
 else:
     st.header("Liste de airbnb")
     st.write("")
+    df_selected['Date_Choix']=None
     for i in range(len(df_selected)):
             with st.container():
                 #On réaffiche l'image, la date, le lieu, le type, le prix et les artistes
@@ -118,8 +119,11 @@ else:
                 else:
                     date_debut=dt
                 date_event=st.date_input("Veuillez saisir la date à laquelle vous souhaitez assister à chaque évènement", date_debut, key=i)
-                date_fin=(date_debut+ timedelta(days=1)).strftime('%Y-%m-%d')
-                date_debut=date_debut.strftime('%Y-%m-%d')
+                date_fin=(date_event+ timedelta(days=1)).strftime('%Y-%m-%d')
+                date_debut=date_event.strftime('%Y-%m-%d')
+
+                df_selected['Date_Choix'][i]=date_event
+                df_selected.to_csv('selected.csv', index=False)
 
                 #Si la ville est une des plus grandes villes, on effectue la recherche sur le lieu de l'évènement
                 if(str(df_selected['Ville'][i]).upper() in biggest_cities):
